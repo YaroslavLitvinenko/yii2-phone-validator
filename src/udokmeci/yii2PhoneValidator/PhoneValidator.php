@@ -26,6 +26,11 @@ class PhoneValidator extends Validator
     public $country;
     public $format = true;
 
+    public $baseMassege;
+    public $messageCountryCode;
+    public $messageNotValid;
+
+
     public function validateAttribute($model, $attribute)
     {
         if ($this->format === true) {
@@ -69,13 +74,13 @@ class PhoneValidator extends Validator
                 }
                 return true;
             } else {
-                $this->addError($model, $attribute, \Yii::t('app', 'Phone number does not seem to be a valid phone number'));
+                $this->addError($model, $attribute, \Yii::t('app', $this->messageNotValid));
                 return false;
             }
         } catch (NumberParseException $e) {
-            $this->addError($model, $attribute, \Yii::t('app', 'Unexpected Phone Number Format'));
+            $this->addError($model, $attribute, \Yii::t('app', $this->baseMassege));
         } catch (Exception $e) {
-            $this->addError($model, $attribute, \Yii::t('app', 'Unexpected Phone Number Format or Country Code'));
+            $this->addError($model, $attribute, \Yii::t('app', $this->messageCountryCode));
         }
     }
 
